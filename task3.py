@@ -2,16 +2,16 @@ import functools
 
 def decor(func):
     @functools.wraps(func)
-    def inner(arg, x='Farewell!'):
+    def inner(arg, x='End!'):
         new_arg=x        
-        x=arg*3
+        x=arg*10
         return func(new_arg, x)
     return inner
 
-def F_F(arg, x='Hello!'):
+def Fun(arg, x='Begin!'):
     print(x)
     return(arg)
 
-print(F_F(33))
-print('----------')
-print(decor(F_F)(33))
+print(Fun(10))
+print('//////')
+print(decor(Fun)(10))
