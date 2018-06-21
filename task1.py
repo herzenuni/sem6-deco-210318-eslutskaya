@@ -1,38 +1,38 @@
- import hashlib
+import hashlib
 import functools
 
 @functools.singledispatch
-def hash(arg):
+def magic(arg):
     type_name = type(arg).__name__
     assert False, "Неподдерживаемый тип объекта: " + type_name
 
-@hash.register(str)
+@magic.register(str)
 def _(arg):
     result = hashlib.md5(bytes(arg,'utf-8')).hexdigest()
     return result
 
-@hash.register(list)
+@magic.register(list)
 def _(arg):
     result = type(arg)()
     for i in arg:
         result.append(hashlib.md5(bytes(i,'utf-8')).hexdigest())
     return result
 
-@hash.register(tuple)
+@magic.register(tuple)
 def _(arg):
     result = []
     for i in arg:
         result.append(hashlib.md5(bytes(i,'utf-8')).hexdigest())
     return tuple(result)
 
-@hash.register(set)
+@magic.register(set)
 def _(arg):
     result = []
     for i in arg:
         result.append(hashlib.md5(bytes(i,'utf-8')).hexdigest())
     return set(result)
 
-@hash.register(dict)
+@magic.register(dict)
 def _(arg):
     keys = arg.keys()
     values = []
@@ -41,7 +41,7 @@ def _(arg):
     result = dict.fromkeys(keys,None)
     result.update(zip(keys,values))
     return result
-
+   
 print(hash('Sherlock, lives!'))
 print(hash(["I'm", 'Kate']))
 print(hash({'Spain':'Italia', 'Russia':'USA', 'Iran':'Korea'}))
